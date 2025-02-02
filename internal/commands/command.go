@@ -26,7 +26,7 @@ func (cmds *Commands) Register(name string, f func(*state.State, Command) error)
 	}
 
 	cmds.List[name] = f
-	fmt.Printf("%s command registered\n", name)
+	// fmt.Printf("%s command registered\n", name)
 
 	return nil
 

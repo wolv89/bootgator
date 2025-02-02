@@ -38,6 +38,8 @@ func main() {
 
 	appCommands.Register("login", commands.HandlerLogin)
 	appCommands.Register("register", commands.HandlerRegister)
+	appCommands.Register("reset", commands.HandlerReset)
+	appCommands.Register("users", commands.HandlerUsers)
 
 	if len(os.Args) < 2 {
 		log.Fatal("no command given")
