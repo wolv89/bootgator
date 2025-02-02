@@ -1,12 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
 	"github.com/wolv89/bootgator/internal/commands"
 	"github.com/wolv89/bootgator/internal/config"
+	"github.com/wolv89/bootgator/internal/database"
 	"github.com/wolv89/bootgator/internal/state"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -16,8 +20,16 @@ func main() {
 		log.Fatal(err)
 	}
 
+	appDB, err := sql.Open("postgres", appConfig.DBUrl)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	appQueries := database.New(appDB)
+
 	appState := state.State{
 		Config: &appConfig,
+		DB:     appQueries,
 	}
 
 	appCommands := commands.Commands{
