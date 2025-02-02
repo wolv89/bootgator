@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/wolv89/bootgator/internal/state"
@@ -12,8 +13,15 @@ func HandlerLogin(s *state.State, cmd Command) error {
 		return fmt.Errorf("login command expects a username argument")
 	}
 
-	s.Config.SetUser(cmd.Args[0])
-	fmt.Println("Settings current user to:", cmd.Args[0])
+	username := cmd.Args[0]
+
+	foundUser, _ := s.DB.GetUser(context.Background(), username)
+	if foundUser.Name != username {
+		return fmt.Errorf("user: %s does not exist", username)
+	}
+
+	s.Config.SetUser(username)
+	fmt.Println("Setting current user to:", username)
 
 	return nil
 

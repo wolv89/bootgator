@@ -37,6 +37,7 @@ func main() {
 	}
 
 	appCommands.Register("login", commands.HandlerLogin)
+	appCommands.Register("register", commands.HandlerRegister)
 
 	if len(os.Args) < 2 {
 		log.Fatal("no command given")
