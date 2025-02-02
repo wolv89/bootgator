@@ -16,11 +16,12 @@ func main() {
 
 	cfg.SetUser("pete")
 
-	cfg2, err := config.Read()
+	// Re-read to check
+	cfg, err = config.Read()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg2)
+	fmt.Printf("%+v\n", cfg)
 
 }
