@@ -36,7 +36,7 @@ func Read() (Config, error) {
 
 }
 
-func (cfg Config) SetUser(username string) error {
+func (cfg *Config) SetUser(username string) error {
 
 	if len(username) == 0 {
 		return fmt.Errorf("non-empty username must be supplied")
