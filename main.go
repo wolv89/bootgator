@@ -42,6 +42,7 @@ func main() {
 	appCommands.Register("users", commands.HandlerUsers)
 	appCommands.Register("agg", commands.HandlerAgg)
 	appCommands.Register("addfeed", commands.HandlerAddFeed)
+	appCommands.Register("feeds", commands.HandlerFeeds)
 
 	if len(os.Args) < 2 {
 		log.Fatal("no command given")

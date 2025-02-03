@@ -16,3 +16,6 @@ WHERE name = $1;
 
 -- name: GetFeeds :many
 SELECT * FROM feeds;
+
+-- name: GetFeedsWithUsernames :many
+SELECT f.*, u.name AS username FROM feeds AS f JOIN users AS u ON f.user_id = u.ID;
