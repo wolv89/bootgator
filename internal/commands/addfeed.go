@@ -50,6 +50,26 @@ func HandlerAddFeed(s *state.State, cmd Command) error {
 		return err
 	}
 
+	now = time.Now()
+
+	_, err = s.DB.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
+		ID:        uuid.New(),
+		CreatedAt: now,
+		UpdatedAt: now,
+		UserID: uuid.NullUUID{
+			UUID:  foundUser.ID,
+			Valid: true,
+		},
+		FeedID: uuid.NullUUID{
+			UUID:  newFeed.ID,
+			Valid: true,
+		},
+	})
+
+	if err != nil {
+		return err
+	}
+
 	fmt.Println("")
 	fmt.Println("Saved new feed:", newFeed.Name)
 	fmt.Println(newFeed)
