@@ -10,16 +10,7 @@ import (
 	"github.com/wolv89/bootgator/internal/state"
 )
 
-func HandlerFollow(s *state.State, cmd Command) error {
-
-	if len(s.Config.CurrentUserName) == 0 {
-		return fmt.Errorf("please login to follow a feed")
-	}
-
-	foundUser, _ := s.DB.GetUser(context.Background(), s.Config.CurrentUserName)
-	if foundUser.Name != s.Config.CurrentUserName {
-		return fmt.Errorf("user: %s does not exist", s.Config.CurrentUserName)
-	}
+func HandlerFollow(s *state.State, cmd Command, user database.User) error {
 
 	if len(cmd.Args) < 1 {
 		return fmt.Errorf("need a url to follow feed")
@@ -39,7 +30,7 @@ func HandlerFollow(s *state.State, cmd Command) error {
 		CreatedAt: now,
 		UpdatedAt: now,
 		UserID: uuid.NullUUID{
-			UUID:  foundUser.ID,
+			UUID:  user.ID,
 			Valid: true,
 		},
 		FeedID: uuid.NullUUID{

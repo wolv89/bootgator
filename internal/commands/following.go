@@ -5,22 +5,14 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/wolv89/bootgator/internal/database"
 	"github.com/wolv89/bootgator/internal/state"
 )
 
-func HandlerFollowing(s *state.State, cmd Command) error {
-
-	if len(s.Config.CurrentUserName) == 0 {
-		return fmt.Errorf("please login to follow a feed")
-	}
-
-	foundUser, _ := s.DB.GetUser(context.Background(), s.Config.CurrentUserName)
-	if foundUser.Name != s.Config.CurrentUserName {
-		return fmt.Errorf("user: %s does not exist", s.Config.CurrentUserName)
-	}
+func HandlerFollowing(s *state.State, cmd Command, user database.User) error {
 
 	myFeeds, err := s.DB.GetFeedFollowsForUser(context.Background(), uuid.NullUUID{
-		UUID:  foundUser.ID,
+		UUID:  user.ID,
 		Valid: true,
 	})
 	if err != nil {

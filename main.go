@@ -8,6 +8,7 @@ import (
 	"github.com/wolv89/bootgator/internal/commands"
 	"github.com/wolv89/bootgator/internal/config"
 	"github.com/wolv89/bootgator/internal/database"
+	"github.com/wolv89/bootgator/internal/middleware.go"
 	"github.com/wolv89/bootgator/internal/state"
 
 	_ "github.com/lib/pq"
@@ -41,10 +42,11 @@ func main() {
 	appCommands.Register("reset", commands.HandlerReset)
 	appCommands.Register("users", commands.HandlerUsers)
 	appCommands.Register("agg", commands.HandlerAgg)
-	appCommands.Register("addfeed", commands.HandlerAddFeed)
 	appCommands.Register("feeds", commands.HandlerFeeds)
-	appCommands.Register("follow", commands.HandlerFollow)
-	appCommands.Register("following", commands.HandlerFollowing)
+
+	appCommands.Register("addfeed", middleware.LoggedIn(commands.HandlerAddFeed))
+	appCommands.Register("follow", middleware.LoggedIn(commands.HandlerFollow))
+	appCommands.Register("following", middleware.LoggedIn(commands.HandlerFollowing))
 
 	if len(os.Args) < 2 {
 		log.Fatal("no command given")
